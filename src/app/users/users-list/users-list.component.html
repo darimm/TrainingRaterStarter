@@ -11,7 +11,7 @@
     <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.firstName" (change)="formChanged($event)"></div>
     <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.lastName" (change)="formChanged($event)"></div>
     <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.password" (change)="formChanged($event)"></div>
-    <div class="col-md-1"><button type="button" class="btn btn-danger" (click)="deleteUser(i)"><span class="glyphicon glyphicon-trash"></span></button></div>
+    <div class="col-md-1"><button type="button" class="btn btn-danger" (click)="deleteUser(user)"><span class="glyphicon glyphicon-trash"></span></button></div>
   </div>
 </div>
 <div class="row">

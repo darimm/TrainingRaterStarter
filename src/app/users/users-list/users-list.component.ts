@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService } from '../users.service';
+import { UsersService, UsersType } from '../users.service';
 
 @Component({
   selector: 'app-users-list',
@@ -17,7 +17,7 @@ export class UsersListComponent implements OnInit {
 
   addUser(): void {
     this.users.push(new Object(
-      {userName: 'username', firstName: 'First', lastName: 'Last', password: 'Password'}
+      {userid: this.users.length, userName: 'username', firstName: 'First', lastName: 'Last', password: 'Password'}
     ));
     this.canAddUser = !this.canAddUser;
   }
@@ -37,7 +37,8 @@ export class UsersListComponent implements OnInit {
     }
   }
 
-  deleteUser(index: number) {
-    this.users.splice(index, 1);
+  deleteUser(user: UsersType ) {
+    console.log(user);
+    this.users.splice(user.userid, 1);
   }
 }
