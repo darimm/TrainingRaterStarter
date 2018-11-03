@@ -3,13 +3,20 @@
   <div class="col-md-2"><strong>Username</strong></div>
   <div class="col-md-3"><strong>First Name</strong></div>
   <div class="col-md-3"><strong>Last Name</strong></div>
-  <div class="col-md-4"><strong>Current Password</strong></div>
-  <div *ngFor="let user of users">
+  <div class="col-md-3"><strong>Current Password</strong></div>
+  <div class="col-md-1"></div>
+  <div *ngFor="let user of users; let i = index" >
   <div class="row">
-    <div class="col-md-2"><input type="text" class="form-control" [(ngModel)]="user.userName"></div>
-    <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.firstName"></div>
-    <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.lastName"></div>
-    <div class="col-md-4"><input type="text" class="form-control" [(ngModel)]="user.password"></div>
+    <div class="col-md-2"><input type="text" class="form-control" [(ngModel)]="user.userName" (change)="formChanged($event)"></div>
+    <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.firstName" (change)="formChanged($event)"></div>
+    <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.lastName" (change)="formChanged($event)"></div>
+    <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.password" (change)="formChanged($event)"></div>
+    <div class="col-md-1"><button type="button" class="btn btn-danger" (click)="deleteUser(i)"><span class="glyphicon glyphicon-trash"></span></button></div>
   </div>
+</div>
+<div class="row">
+  <div class="col-md-2">
+  <button class="btn btn-standard" (click)="addUser()" [disabled]="canAddUser">+</button>
+</div>
 </div>
 </div>
