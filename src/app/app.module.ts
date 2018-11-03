@@ -7,8 +7,8 @@ import { SessionsService } from './sessions/sessions.service';
 import { SessionsListComponent } from './sessions/sessions-list/sessions-list.component';
 import { HomeComponent } from './home/home.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { UsersListComponent } from './users/users-list/users-list.component';
 import { UsersService } from './users/users.service';
+import { UsersListComponent } from './users/users-list/users-list.component';
 import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
