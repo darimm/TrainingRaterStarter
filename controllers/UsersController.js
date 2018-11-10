@@ -1,8 +1,8 @@
-const Sessions = require('../models').Sessions;
+const Users = require('../models').Users;
 
 const getAll = async (req, res) => {
   res.setHeader('Content-Type', 'application/json');
-  let err, sessions;
+  let err, users;
 
   let whereStatement = {};
   if (req.query.name) {
@@ -11,33 +11,55 @@ const getAll = async (req, res) => {
     };
   }
 
-  [err, sessions] = await to(Sessions.findAll({ where: whereStatement }))
+  [err, users] = await to(Users.findAll({ where: whereStatement }))
 
-  return res.json(sessions);
+  return res.json(users);
 }
 module.exports.getAll = getAll;
 
 const get = async (req, res) => {
-  let err, session;
-  let sessionId = parseInt(req.params.sessionId)
+  let err, user;
+  let userId = parseInt(req.params.UserId)
   res.setHeader('Content-Type', 'application/json');
 
-  [err, session] = await to(Sessions.findById(sessionId))
-  if (!session) {
+  [err, user] = await to(Users.findById(userId))
+  if (!user) {
     res.statusCode = 404;
     return res.json({ success: false, error: err });
   }
-  return res.json(session);
+  return res.json(user);
 }
 module.exports.get = get;
 
 
 const update = async function (req, res) {
-  let err, session, data;
+  let err, user, data;
   data = req.body;
 
+  [err, user] = await to(Users.update(data, {
+    where: {
+      id: data.id
+    }
+  }));
+  if (err) {
+    if (typeof err == 'object' && typeof err.message != 'undefined') {
+      err = err.message;
+    }
 
-  [err, session] = await to(Sessions.update(data, {
+    if (typeof code !== 'undefined') res.statusCode = code;
+    res.statusCode = 422
+    return res.json({ success: false, error: err });
+  }
+  res.statusCode = 200;
+  return res.json();
+}
+module.exports.update = update;
+
+const del = async function (req, res) {
+  let err, user, data;
+  data = req.body;
+
+  [err, user] = await to(Users.destroy({
     where: {
       id: data.id
     }
@@ -54,14 +76,14 @@ const update = async function (req, res) {
 
   return res;
 }
-module.exports.update = update;
+module.exports.delete = del;
 
 const create = async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
-  let err, session, sessionInfo;
+  let err, user, userInfo;
   console.log(req.body);
-  sessionInfo = req.body;
-  [err, session] = await to(Sessions.create(sessionInfo));
+  userInfo = req.body;
+  [err, user] = await to(Users.create(userInfo));
   if (err) {
     if (typeof err == 'object' && typeof err.message != 'undefined') {
       err = err.message;
@@ -71,7 +93,7 @@ const create = async function (req, res) {
     res.statusCode = 422; // unprocessable entity
     return res.json({ success: false, error: err });
   }
-  [err, session] = await to(session.save());
+  [err, user] = await to(user.save());
   if (err) {
     if (typeof err == 'object' && typeof err.message != 'undefined') {
       err = err.message;
@@ -83,6 +105,6 @@ const create = async function (req, res) {
 
   }
   res.statusCode = 201;
-  return res.json(session);
+  return res.json(user);
 }
 module.exports.create = create;

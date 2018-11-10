@@ -2,15 +2,27 @@ const express = require('express');
 require('./config/config');
 const models = require('./models')
 const app = express();
+const bodyParser = require('body-parser');
 const sessions = require('./controllers/SessionsController');
+const users = require('./controllers/UsersController')
 require('./global_functions');
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.get('/',(req,res)=>{
-    res.send('Hello World.');
+    res.send('Hello.');
 });
 
-app.get('/sessions',sessions.getAll());
-app.get('/sessions/:{SessionId}',sessions.get());
+app.get('/sessions',sessions.getAll);
+app.get('/sessions/:{SessionId}',sessions.get);
+app.put('/sessions',sessions.update);
+app.post('/sessions',sessions.create);
+app.get('/users',users.getAll);
+app.get('/users/:{UserId}',users.get);
+app.put('/users',users.update);
+app.post('/users',users.create);
+app.delete('/users',users.delete);
 
 models.sequelize
     .authenticate()
