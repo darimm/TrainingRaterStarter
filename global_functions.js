@@ -7,16 +7,16 @@ to = function(promise) {
     }).catch(err => [pe(err)])
 };
 
-parseApiError = (err, res) => {
-    if (err) {
-        if (typeof err == 'object' && typeof err.message != 'undefined') {
-          err = err.message;
-        }
-    
-        if (typeof code !== 'undefined') {
-            res.statusCode = code;
-        }
-        res.statusCode = 422
-        return res.json({ success: false, error: err });
-      }
-  }
+    // parseApiError = (err, res) => {
+    // if (err) {
+    //     if (typeof err == 'object' && typeof err.message != 'undefined') {
+    //         err = err.message;
+    //     }
+
+    //     if (typeof code !== 'undefined') {
+    //         res.statusCode = code;
+    //     }
+    //     res.statusCode = 422
+    //     return res.json({ success: false, error: err });
+    //     }
+    // }

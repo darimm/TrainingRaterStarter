@@ -51,8 +51,8 @@ const update = async function (req, res) {
     res.statusCode = 422
     return res.json({ success: false, error: err });
   }
-
-  return res;
+  
+  return res.json({success: true, error: err});
 }
 module.exports.update = update;
 
