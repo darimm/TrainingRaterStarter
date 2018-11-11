@@ -79,7 +79,7 @@ const del = async function (req, res) {
     return res.json({ success: false, error: err });
   }
 
-  return res.json({success:true, error:err });
+  return res.json(user);
 }
 module.exports.delete = del;
 
