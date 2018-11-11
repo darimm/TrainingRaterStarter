@@ -17,6 +17,8 @@ const getAll = async (req, res) => {
 }
 module.exports.getAll = getAll;
 
+/* *********************************************** */
+
 const get = async (req, res) => {
   let err, user;
   let userId = parseInt(req.params.UserId)
@@ -31,6 +33,7 @@ const get = async (req, res) => {
 }
 module.exports.get = get;
 
+/* *********************************************** */
 
 const update = async function (req, res) {
   let err, user, data;
@@ -55,6 +58,8 @@ const update = async function (req, res) {
 }
 module.exports.update = update;
 
+/* *********************************************** */
+
 const del = async function (req, res) {
   let err, user, data;
   data = req.body;
@@ -77,6 +82,8 @@ const del = async function (req, res) {
   return res.json({success:true, error:err });
 }
 module.exports.delete = del;
+
+/* *********************************************** */
 
 const create = async function (req, res) {
   res.setHeader('Content-Type', 'application/json');
