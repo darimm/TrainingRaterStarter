@@ -7,7 +7,7 @@
   <div class="col-md-1"></div>
   <div *ngFor="let user of users; let i = index" >
   <div class="row">
-    <div class="col-md-2"><input type="text" class="form-control" [(ngModel)]="user.userName" (change)="formChanged($event)"></div>
+    <div class="col-md-2"><input type="text" class="form-control" [(ngModel)]="user.username" (change)="formChanged($event)"></div>
     <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.firstName" (change)="formChanged($event)"></div>
     <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.lastName" (change)="formChanged($event)"></div>
     <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.password" (change)="formChanged($event)"></div>

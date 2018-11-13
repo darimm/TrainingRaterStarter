@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UsersService, UsersType } from '../users.service';
+import { UsersService, IUsers } from '../users.service';
 
 @Component({
   selector: 'app-users-list',
@@ -12,7 +12,8 @@ export class UsersListComponent implements OnInit {
   constructor(private usersService: UsersService) { }
 
   ngOnInit() {
-    this.users = this.usersService.getUsers();
+    this.usersService.getUsers()
+    .subscribe((users) => this.users = users);
   }
 
   addUser(): void {
@@ -37,7 +38,7 @@ export class UsersListComponent implements OnInit {
     }
   }
 
-  deleteUser(user: UsersType ) {
+  deleteUser(user: IUsers) {
     console.log(user);
     this.users.splice(user.userid, 1);
   }
