@@ -10,6 +10,13 @@ require('./global_functions');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+//CORS
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    next();
+});
+
+
 app.get('/',(req,res)=>{
     res.send('Hello.');
 });
