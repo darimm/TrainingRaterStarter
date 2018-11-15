@@ -18,7 +18,7 @@ export class UsersListComponent implements OnInit {
 
   addUser(): void {
     this.users.push(new Object(
-      {userid: this.users.length, userName: 'username', firstName: 'First', lastName: 'Last', password: 'Password'}
+      {userid: this.users.length, username: 'username', firstName: 'First', lastName: 'Last', password: 'Password'}
     ));
     this.canAddUser = !this.canAddUser;
   }
@@ -27,13 +27,12 @@ export class UsersListComponent implements OnInit {
     console.log(event);
     console.log(this.users[this.users.length - 1].userName);
     if (
-      (this.users[this.users.length - 1].userName !== 'username')
+      (this.users[this.users.length - 1].username !== 'username')
     && (this.users[this.users.length - 1].firstName !== 'First')
     && (this.users[this.users.length - 1].lastName !== 'Last')
     && (this.users[this.users.length - 1].password !== 'Password')
     && (this.canAddUser = true)
     ) {
-      console.log('Got here.');
       this.canAddUser = !this.canAddUser;
     }
   }

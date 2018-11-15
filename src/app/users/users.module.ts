@@ -5,11 +5,11 @@ import { UsersService } from './users.service';
 import { UsersListComponent } from './users-list/users-list.component';
 
 @NgModule({
-  declarations: 
+  declarations:
     [
         UsersListComponent,
     ],
-  imports: 
+  imports:
     [
         CommonModule,
         FormsModule,

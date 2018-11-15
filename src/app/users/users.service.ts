@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
 export interface IUsers {
-    userid: number,
-    userName: string,
-    firstName: string,
-    lastName: string,
-    password: string
+    userid: number;
+    userName: string;
+    firstName: string;
+    lastName: string;
+    password: string;
 }
 
 @Injectable()
