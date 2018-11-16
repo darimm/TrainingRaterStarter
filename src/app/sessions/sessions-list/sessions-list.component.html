@@ -1,11 +1,13 @@
 <div class="container">
+  <button class="btn btn-primary" (click)="goToSessionDetail('add')">Add Session</button>
   <div class="row">
     <div class="col-md-4"><strong>Session</strong></div>
     <div class="col-md-4"><strong>Location</strong></div>
     <div class="col-md-4"><strong>Start Time</strong></div>
   </div>
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let session of sessions">
+    <li class="list-group-item" *ngFor="let session of sessions" (click)="goToSessionDetail(session.id)"
+      [style.cursor]="'pointer'">
       <div class="row">
         <div class="col-md-4">{{ session.name }}</div>
         <div class="col-md-4">{{ session.location }}</div>

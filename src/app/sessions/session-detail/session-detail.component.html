@@ -1,0 +1,21 @@
+<div class="row" *ngIf="formReady">
+    <div class="col-md-6">
+        <h4 class="">Session Detail</h4>
+        <hr>
+        <label>Name</label>
+        <input type="text" class="form-control" [(ngModel)]="session.name"/>
+        <label>Location</label>
+        <input type="text" class="form-control" [(ngModel)]="session.location"/>
+        <label>startTime</label>
+        <input type="datetime-local" class="form-control" [(ngModel)]="startTimeAsString"/>
+        <br>
+        <button type="button" class="btn btn-default" (click)="submit()">Submit</button>
+    </div>
+</div>
+
+<!-- 
+name: '',
+location: '',
+startTime: `${new Date()}`,
+createdAt: null,
+updatedAt: null -->

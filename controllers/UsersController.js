@@ -11,7 +11,9 @@ const getAll = async (req, res) => {
     };
   }
 
-  [err, users] = await to(Users.findAll({ where: whereStatement }))
+  [err, users] = await to(Users.findAll({
+    where: whereStatement
+  }))
 
   return res.json(users);
 }
@@ -27,7 +29,10 @@ const get = async (req, res) => {
   [err, user] = await to(Users.findById(userId))
   if (!user) {
     res.statusCode = 404;
-    return res.json({ success: false, error: err });
+    return res.json({
+      success: false,
+      error: err
+    });
   }
   return res.json(user);
 }
@@ -51,7 +56,10 @@ const update = async function (req, res) {
 
     if (typeof code !== 'undefined') res.statusCode = code;
     res.statusCode = 422
-    return res.json({ success: false, error: err });
+    return res.json({
+      success: false,
+      error: err
+    });
   }
   res.statusCode = 200;
   return res.json(user);
@@ -76,7 +84,10 @@ const del = async function (req, res) {
 
     if (typeof code !== 'undefined') res.statusCode = code;
     res.statusCode = 422
-    return res.json({ success: false, error: err });
+    return res.json({
+      success: false,
+      error: err
+    });
   }
 
   return res.json(user);
@@ -98,7 +109,10 @@ const create = async function (req, res) {
 
     if (typeof code !== 'undefined') res.statusCode = code;
     res.statusCode = 422; // unprocessable entity
-    return res.json({ success: false, error: err });
+    return res.json({
+      success: false,
+      error: err
+    });
   }
   [err, user] = await to(user.save());
   if (err) {
@@ -108,7 +122,10 @@ const create = async function (req, res) {
 
     if (typeof code !== 'undefined') res.statusCode = code;
     res.statusCode = 422
-    return res.json({ success: false, error: err });
+    return res.json({
+      success: false,
+      error: err
+    });
 
   }
   res.statusCode = 201;
