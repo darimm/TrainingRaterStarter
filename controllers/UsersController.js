@@ -69,12 +69,13 @@ module.exports.update = update;
 /* *********************************************** */
 
 const del = async function (req, res) {
-  let err, user, data;
+  let userId = parseInt(req.params.UserId)
+  let err, user;
   data = req.body;
 
   [err, user] = await to(Users.destroy({
     where: {
-      id: data.id
+      id: userId
     }
   }));
   if (err) {
@@ -92,7 +93,7 @@ const del = async function (req, res) {
 
   return res.json(user);
 }
-module.exports.delete = del;
+module.exports.del = del;
 
 /* *********************************************** */
 

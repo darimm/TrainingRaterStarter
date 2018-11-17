@@ -5,23 +5,26 @@
         <div class="col-md-2"><strong>Username</strong></div>
         <div class="col-md-3"><strong>First Name</strong></div>
         <div class="col-md-3"><strong>Last Name</strong></div>
-        <div class="col-md-3"><strong>Current Password</strong></div>
-        <div class="col-md-1"></div>
+        <div class="col-md-2"><strong>Current Password</strong></div>
+        <div class="col-md-2"></div>
       </div>
     </li>
-    <li class="list-group-item" *ngFor="let user of users" (click)="goToUserDetail(user.id)" [style.cursor]="'pointer'">
+    <li class="list-group-item" *ngFor="let user of users">
       <div class="row">
         <div class="col-md-2">{{user.username}}</div>
         <div class="col-md-3">{{user.firstName}}</div>
         <div class="col-md-3">{{user.lastName}}</div>
-        <div class="col-md-3">{{user.password}}</div>
-        <div class="col-md-1"><button type="button" class="btn btn-danger" (click)="deleteUser(user)"><span class="glyphicon glyphicon-trash"></span></button></div>
+        <div class="col-md-2">{{user.password}}</div>
+        <div class="col-md-2">
+          <button type="button" class="btn btn-info" (click)="goToUserDetail(user.id)"><span class="glyphicon glyphicon-edit"></span></button>
+          <button type="button" class="btn btn-danger" (click)="deleteUser(user.id)"><span class="glyphicon glyphicon-trash"></span></button>
+        </div>
       </div>
     </li>
   </ul>
   <div class="row">
     <div class="col-md-2">
-      <button class="btn btn-standard" (click)="goToUserDetail('add')" [disabled]="canAddUser">+</button>
+      <button class="btn btn-standard" (click)="goToUserDetail('add')">+</button>
     </div>
   </div>
 </div>

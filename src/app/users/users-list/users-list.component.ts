@@ -8,8 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./users-list.component.css']
 })
 export class UsersListComponent implements OnInit {
-  users = [];
-  canAddUser = false;
+  users: IUser[] = [];
   constructor(
     private usersService: UsersService,
     private router: Router
@@ -20,9 +19,18 @@ export class UsersListComponent implements OnInit {
     .subscribe((users) => this.users = users);
   }
 
-  deleteUser(user: IUser) {
-    console.log(user);
-    this.users.splice(user.userid, 1);
+  deleteUser(id: number) {
+    this.usersService.deleteUser(id)
+    .subscribe(
+      () => {
+        // TODO This seems hacky. Update the endpoint to return a list of users?
+        this.users.splice(this.users.findIndex((i) => i.id === id), 1);
+        this.router.navigate(['users']);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   goToUserDetail(idParam: number | string): void {

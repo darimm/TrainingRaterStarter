@@ -51,6 +51,6 @@ app.get('/users',users.getAll);
 app.get('/users/:UserId',users.get);
 app.put('/users',users.update);
 app.post('/users',users.create);
-app.delete('/users',users.delete);
+app.delete('/users/:UserId',users.del);
 
 module.exports = app;

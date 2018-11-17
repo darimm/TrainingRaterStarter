@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { validateConfig } from '@angular/router/src/config';
 
 const defaultUser: IUser = {
-  userid: 0,
+  id: 0,
   username: '',
   firstName: '',
   lastName: '',
@@ -56,7 +56,7 @@ export class UserDetailComponent implements OnInit {
       console.log('Form not valid');
       return;
     }
-    if (this.user.userid !== 0) { // new users get id 0
+    if (this.user.id !== 0) { // new users get id 0
       this.usersService.updateUser(this.user)
       .subscribe(
         () => { // Return to the users page after we get our response
