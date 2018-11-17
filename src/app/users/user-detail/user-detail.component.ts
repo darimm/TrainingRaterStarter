@@ -79,7 +79,7 @@ export class UserDetailComponent implements OnInit {
       }
     );
     }
-    // do stuff when we succeed
+    // do stuff when we succeed.
     // show a success message here
   }
 }
