@@ -29,7 +29,7 @@ export class UserDetailComponent implements OnInit {
     const idAsString = this.route.snapshot.paramMap.get('entityId');
     const id = isNaN(parseInt(idAsString, 10)) ? 0 : parseInt(idAsString, 10);
 
-    if (id) {
+    if (id && id !== 0) {
       this.usersService.getUserById(id)
       .subscribe(
         (user) => {
@@ -41,6 +41,7 @@ export class UserDetailComponent implements OnInit {
         }
       );
     }
+    this.formReady = true;
   }
   private formValid(): boolean {
     if (this.user.firstName.trim() && this.user.lastName.trim() && this.user.password.trim() && this.user.username.trim()) {
@@ -55,15 +56,30 @@ export class UserDetailComponent implements OnInit {
       console.log('Form not valid');
       return;
     }
-    this.usersService.createUser(this.user)
-    .subscribe();
-    if (this.user.userid) {
-      // update end point
+    if (this.user.userid !== 0) { // new users get id 0
+      this.usersService.updateUser(this.user)
+      .subscribe(
+        () => { // Return to the users page after we get our response
+          this.router.navigate(['users']);
+        },
+        (error) => {
+          // TODO: Display some kind of error here, possibly navigate back to the users list
+          console.log(error);
+        }
+      );
     } else {
-      // create end point
+      this.usersService.createUser(this.user)
+    .subscribe(
+      () => { // Return to the users page after we get our response
+        this.router.navigate(['users']);
+      },
+      (error) => {
+        // TODO: Display some kind of error here, possibly navigate back to the users list
+        console.log(error);
+      }
+    );
     }
     // do stuff when we succeed
-    this.router.navigate(['users']);
     // show a success message here
   }
 }
