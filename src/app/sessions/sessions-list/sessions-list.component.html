@@ -6,7 +6,8 @@
     <div class="col-md-4"><strong>Start Time</strong></div>
   </div>
   <ul class="list-group">
-    <li class="list-group-item" *ngFor="let session of sessions" (click)="goToSessionDetail(session.id)"
+    <li class="list-group-item" *ngFor="let session of sessions"
+      (click)="goToSessionDetail(session.id)"
       [style.cursor]="'pointer'">
       <div class="row">
         <div class="col-md-4">{{ session.name }}</div>
@@ -15,5 +16,4 @@
       </div>
     </li>
   </ul>
-  <!-- </div> -->
 </div>

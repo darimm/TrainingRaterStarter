@@ -1,22 +1,27 @@
 <div class="container">
-  <div class="row"></div>
-  <div class="col-md-2"><strong>Username</strong></div>
-  <div class="col-md-3"><strong>First Name</strong></div>
-  <div class="col-md-3"><strong>Last Name</strong></div>
-  <div class="col-md-3"><strong>Current Password</strong></div>
-  <div class="col-md-1"></div>
-  <div *ngFor="let user of users; let i = index" >
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-md-2"><strong>Username</strong></div>
+        <div class="col-md-3"><strong>First Name</strong></div>
+        <div class="col-md-3"><strong>Last Name</strong></div>
+        <div class="col-md-3"><strong>Current Password</strong></div>
+        <div class="col-md-1"></div>
+      </div>
+    </li>
+    <li class="list-group-item" *ngFor="let user of users" (click)="goToUserDetail(user.id)" [style.cursor]="'pointer'">
+      <div class="row">
+        <div class="col-md-2">{{user.username}}</div>
+        <div class="col-md-3">{{user.firstName}}</div>
+        <div class="col-md-3">{{user.lastName}}</div>
+        <div class="col-md-3">{{user.password}}</div>
+        <div class="col-md-1"><button type="button" class="btn btn-danger" (click)="deleteUser(user)"><span class="glyphicon glyphicon-trash"></span></button></div>
+      </div>
+    </li>
+  </ul>
   <div class="row">
-    <div class="col-md-2"><input type="text" class="form-control" [(ngModel)]="user.username" (change)="formChanged($event)"></div>
-    <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.firstName" (change)="formChanged($event)"></div>
-    <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.lastName" (change)="formChanged($event)"></div>
-    <div class="col-md-3"><input type="text" class="form-control" [(ngModel)]="user.password" (change)="formChanged($event)"></div>
-    <div class="col-md-1"><button type="button" class="btn btn-danger" (click)="deleteUser(user)"><span class="glyphicon glyphicon-trash"></span></button></div>
+    <div class="col-md-2">
+      <button class="btn btn-standard" (click)="goToUserDetail('add')" [disabled]="canAddUser">+</button>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-2">
-  <button class="btn btn-standard" (click)="addUser()" [disabled]="canAddUser">+</button>
-</div>
-</div>
 </div>

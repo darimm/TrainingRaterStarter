@@ -23,7 +23,9 @@ module.exports.getAll = getAll;
 
 const get = async (req, res) => {
   let err, session;
-  let sessionId = parseInt(req.params.sessionId)
+  let sessionId = parseInt(req.params.SessionId);
+  console.log('sessionId: ', sessionId)
+  console.log('req.params.sessionId: ',req.params.SessionId);
   res.setHeader('Content-Type', 'application/json');
 
   [err, session] = await to(Sessions.findById(sessionId))

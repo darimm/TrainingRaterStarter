@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-export interface IUsers {
+export interface IUser {
     userid: number;
-    userName: string;
+    username: string;
     firstName: string;
     lastName: string;
     password: string;
@@ -17,8 +17,23 @@ export class UsersService {
     private http: HttpClient,
   ) { }
 
-  getUsers(): Observable<IUsers[]> {
-    return this.http.get<IUsers[]>('http://localhost:3000/users');
+  getUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>('http://localhost:3000/users');
   }
 
+  getUserById(id: number): Observable<IUser> {
+    return this.http.get<IUser>(`http://localhost:3000/users/${id}`);
+  }
+
+  createUser(user: IUser): Observable<IUser> {
+    return this.http.post<IUser>('http://localhost:3000/users', user);
+  }
+
+  updateUser(user: IUser): Observable<IUser> {
+    return this.http.put<IUser>('http://localhost:3000/users', user);
+  }
+
+  deleteUser(id: number): Observable<IUser> {
+    return this.http.delete<IUser>(`http://localhost:3000/users/${id}`);
+  }
 }

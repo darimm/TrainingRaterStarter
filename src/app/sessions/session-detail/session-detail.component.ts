@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SessionsService, ISession } from '../sessions.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { validateConfig } from '@angular/router/src/config';
 
 const defaultSession: ISession = {
   id: 0,
@@ -16,10 +17,10 @@ const defaultSession: ISession = {
   styleUrls: ['./session-detail.component.css']
 })
 export class SessionDetailComponent implements OnInit {
-  // tslint:disable-next-line:max-line-length
-  session: ISession = { ...defaultSession }; // ellipsis means copy the object don't give me the reference. does a shallow copy not a deep copy.
-  startTimeAsString = '2018-04-02T11:00'; // ISO String has the T and Z in it
-  formReady = false;
+  // ellipsis means copy the object don't give me the reference. does a shallow copy not a deep copy.
+  session: ISession = { ...defaultSession };
+  startTimeAsString = '2018-11-15T23:34';
+
   constructor(
       private sessionsService: SessionsService,
       private route: ActivatedRoute,
@@ -33,14 +34,11 @@ export class SessionDetailComponent implements OnInit {
         this.sessionsService.getSessionById(id)
         .subscribe(
             (session) => {
-                setTimeout(() => {
-            this.session = session;
-            this.formReady = true;
-        }, 2000);
-        },
-        (error) => {
-            console.log('error happened');
-        }
+                this.session = session;
+            },
+            (error) => {
+                console.log('error happened');
+            }
         );
     }
   }
