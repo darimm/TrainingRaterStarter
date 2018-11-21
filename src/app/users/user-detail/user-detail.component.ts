@@ -29,7 +29,7 @@ export class UserDetailComponent implements OnInit {
     const idAsString = this.route.snapshot.paramMap.get('entityId');
     const id = isNaN(parseInt(idAsString, 10)) ? 0 : parseInt(idAsString, 10);
 
-    if (id && id !== 0) {
+    if (id) {
       this.usersService.getUserById(id)
       .subscribe(
         (user) => {

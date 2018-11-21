@@ -1,71 +1,71 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionsService, ISession } from '../sessions.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { validateConfig } from '@angular/router/src/config';
-
-const defaultSession: ISession = {
-  id: 0,
-  name: '',
-  location: '',
-  startTime: new Date(),
-  createdAt: null,
-  updatedAt: null
-};
+import { ISession, SessionsService } from '../sessions.service';
 
 @Component({
-  templateUrl: './session-detail.component.html',
-  styleUrls: ['./session-detail.component.css']
+    templateUrl: './session-detail.component.html',
 })
 export class SessionDetailComponent implements OnInit {
-  // ellipsis means copy the object don't give me the reference. does a shallow copy not a deep copy.
-  session: ISession = { ...defaultSession };
-  startTimeAsString = '2018-11-15T23:34';
 
-  constructor(
-      private sessionsService: SessionsService,
-      private route: ActivatedRoute,
-      private router: Router
-      ) {}
+    session: ISession;
 
-  ngOnInit() {
-    const idAsString = this.route.snapshot.paramMap.get('entityId');
-    const id = isNaN(parseInt(idAsString, 10)) ? 0 : parseInt(idAsString, 10);
-    if (id) {
-        this.sessionsService.getSessionById(id)
-        .subscribe(
-            (session) => {
-                this.session = session;
-            },
-            (error) => {
-                console.log('error happened');
-            }
-        );
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private sessionsService: SessionsService,
+    ) { }
+
+    ngOnInit() {
+        let id: string | number = this.route.snapshot.paramMap.get('entityId');
+        // tslint:disable-next-line:radix
+        id = isNaN(parseInt(id)) ? 0 : parseInt(id);
+        if (id > 0) {
+            // get from db
+            this.sessionsService.getSessionById(id)
+                .subscribe((session) => {
+                    const startTime = new Date(session.startTime);
+                    startTime.setHours(startTime.getHours() - (startTime.getTimezoneOffset() / 60));
+                    session.startTime = startTime.toISOString().slice(0, 16);
+                    this.session = session;
+                });
+        } else {
+            // new
+            this.session = {
+                id: 0,
+                name: '',
+                location: '',
+                startTime: this.getLocalDateTime(),
+                createdAt: '',
+                updatedAt: '',
+            };
+        }
     }
-  }
 
-  private formValid(): boolean {
-    if (this.session.name.trim() && this.session.location.trim()) {
-        return true;
+    getLocalDateTime(): string {
+        const startTime = new Date();
+        startTime.setHours(startTime.getHours() - (startTime.getTimezoneOffset() / 60));
+        return startTime.toISOString().slice(0, 16);
     }
-    return false;
-  }
 
-  submit(): void {
-      if (!this.formValid()) {
-          // TODO: add not valid message here
-          console.log('Form not valid');
-          return;
-      }
-    this.sessionsService.createSession(this.session)
-         .subscribe();
-         if (this.session.id) {
-             // update end point
-            } else {
-                // create end point
-            }
-            // this is what we do when we succeed
-            this.router.navigate(['sessions']);
-            // show success message here
+    save(): void {
+        if (!this.formValid()) {
+            // TODO CCC: pop message about not valid
+            console.log('form invalid');
+            return;
+        }
+        this.sessionsService.save(this.session)
+            .subscribe((session) => {
+                // TODO CCC: add a success message
+                this.router.navigate(['sessions']);
+            });
     }
-  }
 
+    private formValid(): boolean {
+        return this.session.name && this.session.location ? true : false;
+    }
+
+    cancel(): void {
+        this.router.navigate(['sessions']);
+    }
+
+}
