@@ -18,4 +18,9 @@
 
     </div>
   </div>
+  <div class="col-md-6">
+    <div *ngIf="this.session" class="div well well-sm">
+      <app-session-rating [sessionId]="session.id"></app-session-rating>
+    </div>
+  </div>
 </div>

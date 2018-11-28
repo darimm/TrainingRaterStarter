@@ -1,0 +1,8 @@
+SessionRating Component
+- display the avg rating
+- rate the Session
+- service to work with ratings (mock data for now)
+- this component should work for detail page and list page
+- no routing for this, implemented via selector
+- select dropdown (1, 2, etc)
+- v1 not fancy, just working.
