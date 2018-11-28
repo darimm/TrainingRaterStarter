@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-// TODO CCC: why do I have to do this for map to come in?
 // tslint:disable-next-line:import-blacklist
-import { Observable } from 'rxjs/observable';
-// import 'rxjs/add/operator/map';
+import { Observable } from 'rxjs';
+
 
 export interface ISession {
   id: number;

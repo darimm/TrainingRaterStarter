@@ -1,16 +1,18 @@
 <div class="container">
   <button class="btn btn-primary" (click)="goToAdd()">Add Session</button>
   <div class="row">
-    <div class="col-md-4"><strong>Session</strong></div>
-    <div class="col-md-4"><strong>Location</strong></div>
-    <div class="col-md-4"><strong>Start Time</strong></div>
+    <div class="col-md-3"><strong>Session</strong></div>
+    <div class="col-md-3"><strong>Location</strong></div>
+    <div class="col-md-3"><strong>Start Time</strong></div>
+    <div class="col-md-3"><strong>Rating</strong></div>
   </div>
   <ul class="list-group">
     <li class="list-group-item" *ngFor="let session of sessions">
       <div class="row" [style.cursor]="'pointer'" (click)="goToEdit(session.id)">
-        <div class="col-md-4">{{ session.name }}</div>
-        <div class="col-md-4">{{ session.location }}</div>
-        <div class="col-md-4">{{ session.startTime | date:'short' }}</div>
+        <div class="col-md-3">{{ session.name }}</div>
+        <div class="col-md-3">{{ session.location }}</div>
+        <div class="col-md-3">{{ session.startTime | date:'short' }}</div>
+        <div class="col-md-3"><app-session-rating [sessionId]="session.id"></app-session-rating></div>
       </div>
     </li>
   </ul>

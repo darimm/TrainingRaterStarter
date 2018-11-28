@@ -1,7 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SessionRatingService, ISessionRating, RatingValue } from './session-rating.service';
-// tslint:disable-next-line:import-blacklist
-import { Observable } from 'rxjs';
 import { ToastsManager } from 'ng2-toastr';
 
 @Component({
@@ -12,6 +10,8 @@ import { ToastsManager } from 'ng2-toastr';
 export class SessionRatingComponent implements OnInit {
   @Input() sessionId: number; // look at the element that spawned me, and if it has an element called sessionId pass it.
 
+  hasBeenRatedByUser: boolean;
+  ratingMode = false;
   avgRating: number;
   selectedRating: RatingValue;
 
@@ -29,15 +29,17 @@ export class SessionRatingComponent implements OnInit {
 
   ngOnInit() {
     this.getAvgRating();
+    this.ratingService.hasBeenRatedByUser(1, this.sessionId)
+      .subscribe((hasBeenRated) => this.hasBeenRatedByUser = hasBeenRated);
   }
 
-hasBeenRatedByUser(userId: number, sessionId): Observable<boolean> {
-  return Observable.of(false);
+getAvgRating(): void {
+  this.ratingService.getAvgRating(this.sessionId)
+  .subscribe((avgRating) => this.avgRating = avgRating);
 }
 
-getAvgRating(): void {
-  this.ratingService.getAverageRating(this.sessionId)
-  .subscribe((avgRating) => this.avgRating = avgRating);
+stopTheClick(event: Event): void { // This will stop clicks from propagating to parent elements
+  event.stopPropagation();
 }
 
   submit(): void {
@@ -51,6 +53,8 @@ getAvgRating(): void {
     .subscribe(() => {
       this.toastManager.success('Rating submitted');
       this.getAvgRating();
+      this.ratingMode = false;
+      this.hasBeenRatedByUser = true;
     });
   }
 

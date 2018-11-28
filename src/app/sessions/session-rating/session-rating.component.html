@@ -1,12 +1,23 @@
-<span *ngIf="avgRating">
-{{avgRating}} stars
-</span>
-<span *ngIf="!avgRating">
-  No Ratings Yet
-</span>
-<span>
-  <select class="form-control" [(ngModel)]="selectedRating">
-    <option *ngFor="let rating of ratings" [ngValue]="rating.value">{{rating.name}}</option>
-  </select>
-  <button class="btn btn-xs btn-secondary" (click)="submit()">Submit</button>
-</span>
+<div (click)="stopTheClick($event)" class="row">
+  <div *ngIf="!ratingMode">
+    <div class="col-md-6" *ngIf="!avgRating">
+      no ratings yet
+    </div>
+    <div class="col-md-6" *ngIf="avgRating">
+      {{avgRating}} stars
+    </div>
+    <div *ngIf="hasBeenRatedByUser !== undefined && !hasBeenRatedByUser" class="col-md-6">
+      <button class="btn btn-sm btn-secondary" (click)="ratingMode = true">Rate</button>
+    </div>
+  </div>
+  <div *ngIf="ratingMode">
+    <div class="col-md-6">
+      <select class="form-control" [(ngModel)]="selectedRating">
+        <option *ngFor="let rating of ratings" [ngValue]="rating.value">{{rating.name}}</option>
+      </select>
+    </div>
+    <div class="col-md-6">
+      <button class="btn btn-sm btn-secondary" (click)="submit()">Submit</button>
+    </div>
+  </div>
+</div>

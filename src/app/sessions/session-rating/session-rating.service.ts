@@ -23,23 +23,38 @@ private ratings: ISessionRating[] = [];
     private http: HttpClient,
   ) { }
 
-  save(rating: ISessionRating): Observable<ISessionRating> {
-    return Observable.of(rating);
-  }
-
-  getRatings(sessionId: number): Observable<ISessionRating[]> {
-    const ratings = this.ratings.filter((rating) => rating.sessionId === sessionId);
-    return Observable.of(ratings);
-  }
-
-  getAverageRating(sessionId: number): Observable<number> {
-    const ratings = this.ratings.filter((rating) => rating.sessionId === sessionId).map((rating) => rating.rating);
+  getAvgRating(sessionId: number): Observable<number> {
+    const ratings = this.ratings
+      .filter((ratingObj: ISessionRating) => ratingObj.sessionId === sessionId)
+      .map((ratingObj: ISessionRating) => ratingObj.rating);
+    if (!this.ratings.length) {
+      return Observable.of(null);
+    }
     let sum = 0;
-    ratings.forEach((rating) => sum += rating);
+    ratings.forEach((rating: number) => sum += rating);
     if (!this.ratings.length) {
       return Observable.of(null);
     }
     const avg = sum / ratings.length;
     return Observable.of(avg);
   }
+
+  hasBeenRatedByUser(userId: number, sessionId): Observable<boolean> {
+    const hasBeenRated = this.ratings.some(
+      (rating => rating.userId === userId && rating.sessionId === sessionId)
+    );
+    return Observable.of(hasBeenRated);
+  }
+
+  getRatings(sessionId: number): Observable<ISessionRating[]> {
+    const ratings = this.ratings
+      .filter((rating) => rating.sessionId === sessionId);
+    return Observable.of(ratings);
+  }
+
+  save(rating: ISessionRating): Observable<ISessionRating> {
+    this.ratings.push(rating);
+    return Observable.of(rating);
+  }
+
 }
