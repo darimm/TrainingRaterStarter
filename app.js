@@ -5,11 +5,14 @@ require('./global_functions');
 const sessions = require('./controllers/SessionsController');
 const users = require('./controllers/UsersController')
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+app.use(passport.initialize());
 //CORS
 app.use(function (req, res, next) {
     // Website you wish to allow to connect * in this case is any
@@ -41,6 +44,7 @@ models.sequelize
 
 if (CONFIG.app === 'dev') {
     models.sequelize.sync();
+    // models.sequelize.sync({force: true}); // will drop all tables before synchronizing
 }
 
 app.get('/sessions',sessions.getAll);
@@ -54,3 +58,20 @@ app.post('/users',users.create);
 app.delete('/users/:UserId',users.del);
 
 module.exports = app;
+
+const PassportSetup = function(passport) {
+    var opts = {};
+    opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+    opts.secretOrKey = CONFIG.jwt_encryption;
+    
+    passport.use(new JwtStrategy(opts,async function(jwt_payload, done) {
+        let err, user;
+        [err, user] = await to(Users.findById(jwt_payload.user_id));
+        if (err) return done(err, false);
+        if (user) {
+            return done(null, user);
+        } else {
+            return done(null, false); // this shouldn't ever happen. means there is no user and no error.
+        }
+    }))
+};

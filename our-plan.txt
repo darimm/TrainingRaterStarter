@@ -1,8 +1,23 @@
-SessionRating Component
-- display the avg rating
-- rate the Session
-- service to work with ratings (mock data for now)
-- this component should work for detail page and list page
-- no routing for this, implemented via selector
-- select dropdown (1, 2, etc)
-- v1 not fancy, just working.
+Implementing Authentication
+  - Hashing mechanism. Don't store passwords in plain text
+  - Create a user endpoint (already exists for us)
+  - Login Endpoint
+  --JSON Web Tokens
+    --Handle tokens coming from the front end
+    ---Passport (handles authentication) - Can use multiple strategies (google, facebook, twitter, JWT, etc) - Works with Express very well
+    ---JWT (JSON Web Tokens)
+  - Method to compare what was entered to the database. (Inside login route), and grant tokens.
+  - Add authentication to endpoints
+
+  - Hashing will be done with bcrypt
+   - you never actually pull the password out of the database, you just hash it and compare the hash.
+   
+
+Flow:
+Computer sends to server, server sends to node/express app, app sends to router, router sends to controller
+Middleware sits in the middle of the request after it hits your app but before the route. Passport will live there, and BodyParser does live there
+You must allow login page to work unauthenticated, but otherwise it should check authentication.
+User roles are also handled in this space, though we will not be using them here.
+
+  
+  - Login Page
