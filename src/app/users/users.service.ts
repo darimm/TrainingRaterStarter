@@ -4,10 +4,13 @@ import { Observable } from 'rxjs/Observable';
 
 export interface IUser {
     id: number;
-    username: string;
-    firstName: string;
-    lastName: string;
+    email: string;
+    first: string;
+    last: string;
     password: string;
+    phone: string;
+    isTrainer: boolean;
+    aboutMe: string;
 }
 
 @Injectable()

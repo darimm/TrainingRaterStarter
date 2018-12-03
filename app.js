@@ -13,6 +13,25 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
+
+/* PASSPORT SETUP */
+var opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = CONFIG.jwt_encryption;
+
+passport.use(new JwtStrategy(opts,async function(jwt_payload, done) {
+    let err, user;
+    [err, user] = await to(Users.findById(jwt_payload.user_id));
+    
+    if (err) return done(err, false);
+    if (user) {
+        return done(null, user);
+    } else {
+        return done(null, false); // this shouldn't ever happen. means there is no user and no error.
+    }
+}))
+/* END PASSPORT SETUP */
+
 //CORS
 app.use(function (req, res, next) {
     // Website you wish to allow to connect * in this case is any
@@ -43,35 +62,18 @@ models.sequelize
 });
 
 if (CONFIG.app === 'dev') {
-    models.sequelize.sync();
-    // models.sequelize.sync({force: true}); // will drop all tables before synchronizing
+    // models.sequelize.sync();
+    models.sequelize.sync({force: true}); // will drop all tables before synchronizing
 }
 
-app.get('/sessions',sessions.getAll);
-app.get('/sessions/:SessionId',sessions.get);
-app.put('/sessions',sessions.update);
-app.post('/sessions',sessions.create);
+app.get('/sessions', passport.authenticate('jwt', { session: false }), sessions.getAll);
+app.get('/sessions/:SessionId', passport.authenticate('jwt', { session: false }), sessions.get);
+app.put('/sessions', passport.authenticate('jwt', { session: false }), sessions.update);
+app.post('/sessions', passport.authenticate('jwt', { session: false }), sessions.create);
 app.get('/users',users.getAll);
 app.get('/users/:UserId',users.get);
 app.put('/users',users.update);
 app.post('/users',users.create);
 app.delete('/users/:UserId',users.del);
-
+app.post('/login', users.login);
 module.exports = app;
-
-const PassportSetup = function(passport) {
-    var opts = {};
-    opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-    opts.secretOrKey = CONFIG.jwt_encryption;
-    
-    passport.use(new JwtStrategy(opts,async function(jwt_payload, done) {
-        let err, user;
-        [err, user] = await to(Users.findById(jwt_payload.user_id));
-        if (err) return done(err, false);
-        if (user) {
-            return done(null, user);
-        } else {
-            return done(null, false); // this shouldn't ever happen. means there is no user and no error.
-        }
-    }))
-};

@@ -4,20 +4,33 @@
       <h4 class="">User Detail</h4>
       <br>
       <div *ngIf="formReady">
-        <label>User Name</label> <label *ngIf="user.id">(User ID: {{user.id}})</label>
-        <input type="text" class="form-control" [(ngModel)]="user.username"/>
+        <label>Email</label> <label *ngIf="user.id">(User ID: {{user.id}})</label>
+        <input type="text" class="form-control" [(ngModel)]="user.email"/>
         <label>First Name</label>
-        <input type="text" class="form-control" [(ngModel)]="user.firstName"/>
+        <input type="text" class="form-control" [(ngModel)]="user.first"/>
         <label>Last Name</label>
-        <input type="text" class="form-control" [(ngModel)]="user.lastName"/>
+        <input type="text" class="form-control" [(ngModel)]="user.last"/>
         <label>Password</label>
         <input type="text" class="form-control" [(ngModel)]="user.password"/>
+        <label>User is Trainer? <input type="checkbox" [(ngModel)]="user.isTrainer"/></label>
         <br>
         <button type="button" class="btn btn-default" (click)="submit()">Submit</button>
       </div>
     </div>
     <div *ngIf="!formReady">
       <span>Loading...</span>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="well well-sm">
+      <h4 class="">Optional Information</h4>
+      <br>
+      <div *ngIf="formReady">
+        <label>About Me</label>
+        <textarea rows="5" class="form-control" [(ngModel)]="user.aboutMe"></textarea>
+        <label>Phone</label>
+        <input type="text" class="form-control" [(ngModel)]="user.phone"/>
+      </div>
     </div>
   </div>
 </div>

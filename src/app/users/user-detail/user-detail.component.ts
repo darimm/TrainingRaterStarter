@@ -2,14 +2,19 @@ import { Component, OnInit } from '@angular/core';
 import { UsersService, IUser } from '../users.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { validateConfig } from '@angular/router/src/config';
+import { ToastsManager } from 'ng2-toastr'; // Required to use toasts.
 
 const defaultUser: IUser = {
   id: 0,
-  username: '',
-  firstName: '',
-  lastName: '',
+  email: '',
+  first: '',
+  last: '',
   password: '',
+  phone: '',
+  isTrainer: false,
+  aboutMe: ''
 };
+
 
 @Component({
   selector: 'app-user-detail',
@@ -22,7 +27,8 @@ export class UserDetailComponent implements OnInit {
   constructor(
     private usersService: UsersService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private toastsManager: ToastsManager // Toasts is a service, this implements it.
   ) { }
 
   ngOnInit() {
@@ -37,14 +43,15 @@ export class UserDetailComponent implements OnInit {
           this.formReady = true;
         },
         (error) => {
-          console.log('error happened');
+          this.toastsManager.error('Unable to retrieve User');
+          console.error(error);
         }
       );
     }
     this.formReady = true;
   }
   private formValid(): boolean {
-    if (this.user.firstName.trim() && this.user.lastName.trim() && this.user.password.trim() && this.user.username.trim()) {
+    if (this.user.first.trim() && this.user.last.trim() && this.user.password.trim() && this.user.email.trim() && this.user.phone.trim()) {
       return true;
     }
     return false;
@@ -52,18 +59,20 @@ export class UserDetailComponent implements OnInit {
 
   submit(): void {
     if (!this.formValid()) {
-      // TODO: add not valid message here
-      console.log('Form not valid');
+      this.toastsManager.error('Form invalid');
       return;
     }
+    console.log(this.user.id);
     if (this.user.id !== 0) { // new users get id 0
+      console.log ('passed first if');
       this.usersService.updateUser(this.user)
       .subscribe(
         () => { // Return to the users page after we get our response
+          this.toastsManager.success('User Updated');
           this.router.navigate(['users']);
         },
         (error) => {
-          // TODO: Display some kind of error here, possibly navigate back to the users list
+          this.toastsManager.error('Unable to update user');
           console.log(error);
         }
       );
@@ -71,15 +80,15 @@ export class UserDetailComponent implements OnInit {
       this.usersService.createUser(this.user)
     .subscribe(
       () => { // Return to the users page after we get our response
+        this.toastsManager.success('User Created');
         this.router.navigate(['users']);
       },
       (error) => {
-        // TODO: Display some kind of error here, possibly navigate back to the users list
-        console.log(error);
+        this.toastsManager.error('Unable to create user');
+        console.error(error);
+        this.router.navigate(['users']);
       }
     );
     }
-    // do stuff when we succeed.
-    // show a success message here
   }
 }
