@@ -98,6 +98,7 @@ const login = async function (req, res) {
 
   [err,user] = await to(authUser(req.body));
   if (err) return ReE(res, err, 422);
+  console.log(user);
   return ReS(res, {token: user.getJWT(), user: user.toJSON() });
 }
 module.exports.login = login;

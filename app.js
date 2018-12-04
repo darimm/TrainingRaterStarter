@@ -1,6 +1,7 @@
 const express = require('express');
 require('./config/config');
 const models = require('./models')
+const Users = require('./models').Users;
 require('./global_functions');
 const sessions = require('./controllers/SessionsController');
 const users = require('./controllers/UsersController')
@@ -62,8 +63,8 @@ models.sequelize
 });
 
 if (CONFIG.app === 'dev') {
-    // models.sequelize.sync();
-    models.sequelize.sync({force: true}); // will drop all tables before synchronizing
+    models.sequelize.sync();
+    // models.sequelize.sync({force: true}); // will drop all tables before synchronizing
 }
 
 app.get('/sessions', passport.authenticate('jwt', { session: false }), sessions.getAll);

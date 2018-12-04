@@ -21,3 +21,32 @@ User roles are also handled in this space, though we will not be using them here
 
   
   - Login Page
+
+
+
+  --------------------------
+
+  - How do we secure API endpoints.
+  Back End Security
+
+  Front End Security
+
+  - Determine if we are logged in. What is my token, does it exist? (Auth Service)
+  -- Responsible for determining isAuthenticated?
+  -- Responsible for hitting the login endpoint.
+  - Secure pages or routes
+  -- Needs to be easy to implement everywhere
+  - When hitting endpoints from FE how to include security token
+
+
+  Stretch Goals
+  - Make password great again
+
+  Look up Behavior Subject RXJS observable type
+  Usable for current user.
+
+  Sign out? - set current user and token to null.
+  ngx-cookie package lets you store tokens in cookies etc. standard setting is that cookie is https only, but is javascript enabled.
+  xsrf - set by the return of the http call, and it is location-bound, has to be set by receiving a login result with the header of xsrf set.  (X-XSRF header)
+  By default xsrf is not enabled by javascript, and you cannot access it from javascript
+
