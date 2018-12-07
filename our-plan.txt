@@ -50,3 +50,13 @@ User roles are also handled in this space, though we will not be using them here
   xsrf - set by the return of the http call, and it is location-bound, has to be set by receiving a login result with the header of xsrf set.  (X-XSRF header)
   By default xsrf is not enabled by javascript, and you cannot access it from javascript
 
+  -----------------------------------------------
+
+  Add ratings login
+  Add associations to session
+  Add ratings CRUD
+  Update sessions controller
+  Pull average rating
+
+  Homework - Hook ratings front end to the back end.
+  Homework - Display Average rating for sesion

@@ -4,6 +4,7 @@ const models = require('./models')
 const Users = require('./models').Users;
 require('./global_functions');
 const sessions = require('./controllers/SessionsController');
+const ratings = require('./controllers/RatingsController');
 const users = require('./controllers/UsersController')
 const bodyParser = require('body-parser');
 const passport = require('passport');
@@ -77,4 +78,6 @@ app.put('/users',users.update);
 app.post('/users',users.create);
 app.delete('/users/:UserId',users.del);
 app.post('/login', users.login);
+app.post('/ratings/:sessionId', ratings.create); 
+app.put('/ratings/:ratingId', ratings.update);
 module.exports = app;
