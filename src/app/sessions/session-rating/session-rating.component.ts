@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { SessionRatingService, ISessionRating, RatingValue } from './session-rating.service';
+import { ISession } from '../sessions.service';
 import { ToastsManager } from 'ng2-toastr';
 
 @Component({
@@ -8,7 +9,7 @@ import { ToastsManager } from 'ng2-toastr';
   styleUrls: ['./session-rating.component.less']
 })
 export class SessionRatingComponent implements OnInit {
-  @Input() sessionId: number; // look at the element that spawned me, and if it has an element called sessionId pass it.
+  @Input() session: ISession; // look at the element that spawned me, and if it has an element called sessionId pass it.
 
   hasBeenRatedByUser: boolean;
   ratingMode = false;
@@ -29,13 +30,11 @@ export class SessionRatingComponent implements OnInit {
 
   ngOnInit() {
     this.getAvgRating();
-    this.ratingService.hasBeenRatedByUser(1, this.sessionId)
-      .subscribe((hasBeenRated) => this.hasBeenRatedByUser = hasBeenRated);
+    this.session.Ratings.some((rating) => rating.userId === parseInt(this.session.currentUser, 10));
   }
 
 getAvgRating(): void {
-  this.ratingService.getAvgRating(this.sessionId)
-  .subscribe((avgRating) => this.avgRating = avgRating);
+  this.avgRating = this.session.avgRating;
 }
 
 stopTheClick(event: Event): void { // This will stop clicks from propagating to parent elements
@@ -44,8 +43,9 @@ stopTheClick(event: Event): void { // This will stop clicks from propagating to 
 
   submit(): void {
     const rating: ISessionRating = {
-      userId: 1,
-      sessionId: this.sessionId,
+      id: 0,
+      userId: parseInt(this.session.currentUser, 10),
+      sessionId: this.session.id,
       rating: this.selectedRating,
       createdDate: new Date(),
     };

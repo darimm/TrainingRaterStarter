@@ -5,11 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     startTime: { type: DataTypes.DATE, allowNull: false },
     location: DataTypes.STRING
 
-  }, {
-      classMethods: {
-        associate: function(models) {
-          Sessions.hasMany(models.Ratings, {foreignKey: 'sessionId', sourceKey: 'id'}) // associations can be defined here
-        }
-  }});
+  }, { });
+  Sessions.associate =  function(models) {
+      models.Sessions.hasMany(models.Ratings, {foreignKey: 'sessionId', sourceKey: 'id'}); 
+  }
   return Sessions;
 };

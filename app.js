@@ -78,6 +78,6 @@ app.put('/users',users.update);
 app.post('/users',users.create);
 app.delete('/users/:UserId',users.del);
 app.post('/login', users.login);
-app.post('/ratings/:sessionId', ratings.create); 
-app.put('/ratings/:ratingId', ratings.update);
+app.post('/ratings/:sessionId', passport.authenticate('jwt', { session: false }),  ratings.create); 
+app.put('/ratings/:ratingId', passport.authenticate('jwt', { session: false }), ratings.update);
 module.exports = app;

@@ -12,23 +12,23 @@ const getAll = async (req, res) => {
     };
   }
 
-  [err, sessions] = await to(Sessions.findAll({
-    include: [{model: Ratings}],
-    where: whereStatement
-  }))
+  [err, sessions] = await to(Sessions.findAll({ include: [{model: Ratings}], where: whereStatement }))
   let sessionsWithAverage = [];
+  
   for (let i in sessions) {
     let sessionInfo = sessions[i].toJSON();
     sessionInfo.avgRating = 0;
     for (let r in sessionInfo.Ratings) {
       sessionInfo.avgRating += parseInt(sessionInfo.Ratings[r].rating);
     }
+
     if (sessionInfo.Ratings.length > 0) {
       sessionInfo.avgRating = sessionInfo.avgRating / sessionInfo.Ratings.length;
     }
+    sessionInfo.currentUser = req.user.id;
     sessionsWithAverage.push(sessionInfo)
   }
-  return res.json(sessionInfo);
+  return res.json(sessionsWithAverage);
 }
 module.exports.getAll = getAll;
 
@@ -41,7 +41,10 @@ const get = async (req, res) => {
   console.log('req.params.sessionId: ',req.params.SessionId);
   res.setHeader('Content-Type', 'application/json');
 
-  [err, session] = await to(Sessions.findById(sessionId))
+  [err, session] = await to(Sessions.findById(sessionId, {
+    include: [{model: Ratings}]
+  }))
+  
   if (!session) {
     res.statusCode = 404;
     return res.json({
@@ -49,7 +52,16 @@ const get = async (req, res) => {
       error: err
     });
   }
-  return res.json(session);
+  let sessionInfo = session.toJSON();
+  sessionInfo.avgRating = 0;
+  for (let r in sessionInfo.Ratings) {
+    sessionInfo.avgRating += parseInt(sessionInfo.Ratings[r].rating);
+  }
+  if (sessionInfo.Ratings.length > 0) {
+    sessionInfo.avgRating = sessionInfo.avgRating / sessionInfo.Ratings.length;
+  }
+  sessionInfo.currentUser = req.user.id;
+  return res.json(sessionInfo);
 }
 module.exports.get = get;
 

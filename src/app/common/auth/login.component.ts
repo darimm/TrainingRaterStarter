@@ -28,6 +28,7 @@ password = '';
       (response) => {
         if (response.success) {
         this.toastsManager.success(response.token);
+        this.router.navigate(['sessions']);
         } else {
           this.toastsManager.error('Login Failed');
         }

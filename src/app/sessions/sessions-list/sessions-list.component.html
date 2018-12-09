@@ -1,5 +1,6 @@
 <div class="container">
   <button class="btn btn-primary" (click)="goToAdd()">Add Session</button>
+  
   <div class="row">
     <div class="col-md-3"><strong>Session</strong></div>
     <div class="col-md-3"><strong>Location</strong></div>
@@ -12,7 +13,7 @@
         <div class="col-md-3">{{ session.name }}</div>
         <div class="col-md-3">{{ session.location }}</div>
         <div class="col-md-3">{{ session.startTime | date:'short' }}</div>
-        <div class="col-md-3"><app-session-rating [sessionId]="session.id"></app-session-rating></div>
+        <div class="col-md-3"><app-session-rating [session]="session"></app-session-rating></div>
       </div>
     </li>
   </ul>

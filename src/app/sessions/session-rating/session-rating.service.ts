@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 export type RatingValue = 1 | 2 | 3 | 4 | 5;
 
 export interface ISessionRating {
+ id: number;
  sessionId: number;
  userId: number;
  rating: RatingValue;
@@ -23,7 +24,8 @@ private ratings: ISessionRating[] = [];
     private http: HttpClient,
   ) { }
 
-  getAvgRating(sessionId: number): Observable<number> {
+ /* This got handled by the back end.
+    getAvgRating(sessionId: number): Observable<number> {
     const ratings = this.ratings
       .filter((ratingObj: ISessionRating) => ratingObj.sessionId === sessionId)
       .map((ratingObj: ISessionRating) => ratingObj.rating);
@@ -38,7 +40,7 @@ private ratings: ISessionRating[] = [];
     const avg = sum / ratings.length;
     return Observable.of(avg);
   }
-
+*/
   hasBeenRatedByUser(userId: number, sessionId): Observable<boolean> {
     const hasBeenRated = this.ratings.some(
       (rating => rating.userId === userId && rating.sessionId === sessionId)
@@ -53,8 +55,10 @@ private ratings: ISessionRating[] = [];
   }
 
   save(rating: ISessionRating): Observable<ISessionRating> {
-    this.ratings.push(rating);
-    return Observable.of(rating);
+    if (rating.id) {
+      return this.http.put<ISessionRating>(`http://localhost:3000/ratings/${rating.id}`, rating);
+    } else {
+      return this.http.post<ISessionRating>(`http://localhost:3000/ratings/${rating.sessionId}`, rating);
+    }
   }
-
 }
